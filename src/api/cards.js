@@ -5,8 +5,6 @@ const handler = async (req, res) => {
   const token = req.body.token;
   const amount = req.body.amount;
 
-  console.log(token, amount);
-
   if (!token || !amount) {
     return res
       .status(422)
@@ -18,7 +16,7 @@ const handler = async (req, res) => {
       token: token,
       amount: {
         subtotalIva: 0,
-        subtotalIva0: amount,
+        subtotalIva0: Number(amount),
         ice: 0,
         iva: 0,
         currency: "USD",
@@ -26,13 +24,12 @@ const handler = async (req, res) => {
       fullResponse: true,
     })
     .then((response) => {
-      // Your own logic here...
-      console.log(response.data);
-      return res.send(response.data);
+      return res.status(200).json(response.data);
     })
     .catch((error) => {
-      console.log(error.response);
-      return res.status(422).send(error.response.data);
+      console.log(error.response.data);
+      const data = error.response.data;
+      return res.status(400).json(data);
     });
 };
 
