@@ -2,14 +2,8 @@ const kushkiAPI = require("../kushkiAPI");
 const allowCors = require("../allowCors");
 
 const handler = async (req, res) => {
-  const ticketNumber = req.body.ticketNumber;
+  const ticketNumber = req.params.ticket;
   const amount = req.body.amount;
-
-  if (!ticketNumber || !amount) {
-    return res
-      .status(422)
-      .send({ status: "error", message: "missing parameter(s)" });
-  }
 
   return kushkiAPI()
     .delete(`/v1/charges/${ticketNumber}`, {
